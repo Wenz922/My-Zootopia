@@ -1,27 +1,32 @@
 import json
 
 JSON_FILE = 'animals_data.json'
+HTML_FILE = 'animals_template.html'
 
 
-def load_data(JSON_FILE):
+def load_data(file_path):
     '''Loads a JSON file'''
-    with open(JSON_FILE, 'r') as handle:
+    with open(file_path, 'r') as handle:
         return json.load(handle)
 
 
 animals_data = load_data(JSON_FILE)
-"""print(type(animals_data))
-print(type(animals_data[0]))
-print(animals_data[0].keys())
-print(type(animals_data[0]['name']))
-print(animals_data[0]['taxonomy'].keys())
-print(type(animals_data[0]['locations']))
-print(animals_data[0]['characteristics'].keys())"""
+with open(HTML_FILE, 'r') as file:
+    html_data = file.read()
+#print(html_data)
 
+output = ''     # define an empty string
 for animal in animals_data:
-    print(f"Name: {animal['name']}")
-    print(f"Diet: {animal['characteristics']['diet']}")
-    print(f"Location: {animal['locations'][0]}")
+    # append information to each string
+    output += f"Name: {animal['name']}\n"
+    output += f"Diet: {animal['characteristics']['diet']}\n"
+    output += f"Location: {animal['locations'][0]}\n"
     if animal['characteristics'].get('type'):
-        print(f"Type: {animal['characteristics']['type']}")
-    print()
+        output += f"Type: {animal['characteristics']['type']}\n"
+#print(output)
+
+new_html_data = html_data.replace("__REPLACE_ANIMALS_INFO__", output)
+#print(new_html_data)
+
+with open('animals.html', 'w') as file:
+    file.write(new_html_data)
