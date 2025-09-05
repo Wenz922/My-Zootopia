@@ -18,11 +18,13 @@ with open(HTML_FILE, 'r') as file:
 output = ''     # define an empty string
 for animal in animals_data:
     # append information to each string
-    output += f"Name: {animal['name']}\n"
-    output += f"Diet: {animal['characteristics']['diet']}\n"
-    output += f"Location: {animal['locations'][0]}\n"
+    output += '<li class="cards__item">'
+    output += f"Name: {animal['name']}<br/>\n"
+    output += f"Diet: {animal['characteristics']['diet']}<br/>\n"
+    output += f"Location: {animal['locations'][0]}<br/>\n"
     if animal['characteristics'].get('type'):
-        output += f"Type: {animal['characteristics']['type']}\n"
+        output += f"Type: {animal['characteristics']['type']}<br/>\n"
+    output += '</li>'
 #print(output)
 
 new_html_data = html_data.replace("__REPLACE_ANIMALS_INFO__", output)
