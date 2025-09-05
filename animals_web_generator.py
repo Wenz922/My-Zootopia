@@ -28,14 +28,28 @@ def serialize_animal(animal_obj):
     output = ''
     output += '<li class="cards__item">'
     output += f'<div class="card__title">{animal_obj["name"]}</div>\n'
-    output += '<p class="card__text">'
-    output += f'<strong>Diet:</strong> {animal_obj["characteristics"]["diet"]}<br/>\n'
-    output += f'<strong>Location:</strong> {animal_obj["locations"][0]}<br/>\n'
+    output += '<div class="card__text">'
+    output += '<ul>'
+    output += f'<li><strong>Diet:</strong> {animal_obj["characteristics"]["diet"]}</li>\n'
+    output += f'<li><strong>Location:</strong> {animal_obj["locations"][0]}</li>\n'
     if animal_obj['characteristics'].get('type'):
-        output += f'<strong>Type:</strong> {animal_obj["characteristics"]["type"]}<br/>\n'
-    output += '</p>'
+        output += f'<li><strong>Type:</strong> {animal_obj["characteristics"]["type"]}</li>\n'
+    output += '</ul>'
+    output += '</div>'
     output += '</li>'
     return output
+
+
+def skin_type(animal_obj):
+    '''Prints animal skin types'''
+    skin_types = set()
+    for animal in animal_obj:
+        skin_type = animal["characteristics"].get("skin_type")
+        if skin_type:
+            skin_types.add(skin_type)
+    print("Available animal skin types: ")
+    for ani_skin in skin_types:
+        print('-', ani_skin)
 
 
 def main():
@@ -45,8 +59,15 @@ def main():
     html_data = load_html_data(HTML_FILE)
     #print(html_data)
 
+    # Display animal skin types
+    skin_type(animals_data)
+    # User choose a animal skin type
+    user_selected = input(f"Enter an animal's skin type from the above list: ").strip()
+    filtered_animals = [animal for animal in animals_data
+                        if animal["characteristics"].get("skin_type") == user_selected]
+
     output = ''     # define an empty string
-    for animal in animals_data:
+    for animal in filtered_animals:
         output += serialize_animal(animal)
     #print(output)
 
