@@ -70,30 +70,31 @@ def main():
     # print(animals_data)
 
     # Get animal data from API
-    animal_name = input('Enter animal name: ')
+    animal_name = input('Enter a name of an animal: ')
     animals_data = get_animals_data(animal_name)
-    for animal in animals_data:
-        print(animal)
+    #for animal in animals_data:
+        #print(animal)
 
-    """html_data = load_html_data(HTML_FILE)
+    html_data = load_html_data(HTML_FILE)
     #print(html_data)
 
-    # Display animal skin types
+    """# Display animal skin types
     skin_type(animals_data)
     # User choose a animal skin type
     user_selected = input(f"Enter an animal's skin type from the above list: ").strip()
     filtered_animals = [animal for animal in animals_data
-                        if animal["characteristics"].get("skin_type") == user_selected]
+                        if animal["characteristics"].get("skin_type") == user_selected]"""
 
     output = ''     # define an empty string
-    for animal in filtered_animals:
+    for animal in animals_data:
         output += serialize_animal(animal)
     #print(output)
 
     new_html_data = html_data.replace("__REPLACE_ANIMALS_INFO__", output)
     #print(new_html_data)
 
-    write_html_data(NEW_HTML_FILE, new_html_data)"""
+    write_html_data(NEW_HTML_FILE, new_html_data)
+    print("Website was successfully generated to the file animals.html.")
 
 
 if __name__ == '__main__':
