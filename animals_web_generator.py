@@ -1,14 +1,26 @@
 import json
+import requests
 
 JSON_FILE = 'animals_data.json'
 HTML_FILE = 'animals_template.html'
 NEW_HTML_FILE = 'animals.html'
+
+# API Ninja
+HEADERS = {'X-Api-Key': 'HY98B+WTrLJwUlITv0hsBw==3Bh3GFG3n8jxIE9f'}
+REQUEST_URL = 'https://api.api-ninjas.com/v1/animals'
 
 
 def load_json_data(json_file_path):
     '''Loads a JSON file'''
     with open(json_file_path, 'r') as handle:
         return json.load(handle)
+
+
+def get_animals_data(animal_name):
+    '''Fetch the animal data from a API'''
+    params = {'name': animal_name}
+    res = requests.get(REQUEST_URL, headers=HEADERS, params=params)
+    return res.json()
 
 
 def load_html_data(html_file_path):
@@ -54,9 +66,16 @@ def skin_type(animal_obj):
 
 def main():
     '''Main function'''
-    animals_data = load_json_data(JSON_FILE)
-    #print(animals_data)
-    html_data = load_html_data(HTML_FILE)
+    # animals_data = load_json_data(JSON_FILE)  # Get animal data from given file
+    # print(animals_data)
+
+    # Get animal data from API
+    animal_name = input('Enter animal name: ')
+    animals_data = get_animals_data(animal_name)
+    for animal in animals_data:
+        print(animal)
+
+    """html_data = load_html_data(HTML_FILE)
     #print(html_data)
 
     # Display animal skin types
@@ -74,7 +93,7 @@ def main():
     new_html_data = html_data.replace("__REPLACE_ANIMALS_INFO__", output)
     #print(new_html_data)
 
-    write_html_data(NEW_HTML_FILE, new_html_data)
+    write_html_data(NEW_HTML_FILE, new_html_data)"""
 
 
 if __name__ == '__main__':
