@@ -20,6 +20,8 @@ def get_animals_data(animal_name):
     '''Fetch the animal data from a API'''
     params = {'name': animal_name}
     res = requests.get(REQUEST_URL, headers=HEADERS, params=params)
+    if res.status_code != 200:
+        raise Exception(f'Error fetching animals data, {res.status_code}, {res.text}')
     return res.json()
 
 
@@ -69,26 +71,26 @@ def main():
     # animals_data = load_json_data(JSON_FILE)  # Get animal data from given file
     # print(animals_data)
 
+    # Open html template file
+    html_data = load_html_data(HTML_FILE)
+
     # Get animal data from API
     animal_name = input('Enter a name of an animal: ')
     animals_data = get_animals_data(animal_name)
-    #for animal in animals_data:
-        #print(animal)
+    if animals_data:
 
-    html_data = load_html_data(HTML_FILE)
-    #print(html_data)
+        """# Display animal skin types
+        skin_type(animals_data)
+        # User choose a animal skin type
+        user_selected = input(f"Enter an animal's skin type from the above list: ").strip()
+        filtered_animals = [animal for animal in animals_data
+                            if animal["characteristics"].get("skin_type") == user_selected]"""
 
-    """# Display animal skin types
-    skin_type(animals_data)
-    # User choose a animal skin type
-    user_selected = input(f"Enter an animal's skin type from the above list: ").strip()
-    filtered_animals = [animal for animal in animals_data
-                        if animal["characteristics"].get("skin_type") == user_selected]"""
-
-    output = ''     # define an empty string
-    for animal in animals_data:
-        output += serialize_animal(animal)
-    #print(output)
+        output = ''     # define an empty string
+        for animal in animals_data:
+            output += serialize_animal(animal)
+    else:
+        output = f'<h2>The animal "{animal_name}" does not exist.</h2>'
 
     new_html_data = html_data.replace("__REPLACE_ANIMALS_INFO__", output)
     #print(new_html_data)
