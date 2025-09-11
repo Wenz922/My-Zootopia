@@ -1,6 +1,6 @@
 # My Zootopic project
 
-This project fetchs the animal data from https://api-ninjas.com/ generate your own html website!
+This project fetchs the animal data from https://api-ninjas.com/, and generate your own html website!
 
 ## Installation
 
