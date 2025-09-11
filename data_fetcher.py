@@ -1,7 +1,13 @@
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # API Ninja
-HEADERS = {'X-Api-Key': 'HY98B+WTrLJwUlITv0hsBw==3Bh3GFG3n8jxIE9f'}
+API_KEY = os.getenv('API_KEY')
+#print(API_KEY)
+HEADERS = {'X-Api-Key': API_KEY}
 REQUEST_URL = 'https://api.api-ninjas.com/v1/animals'
 
 
