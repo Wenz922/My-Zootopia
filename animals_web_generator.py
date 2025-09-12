@@ -1,15 +1,9 @@
-import json
+
 from data_fetcher import fetch_data
 
-JSON_FILE = 'animals_data.json'
+
 HTML_FILE = 'animals_template.html'
 NEW_HTML_FILE = 'animals.html'
-
-
-def load_json_data(json_file_path):
-    """Loads a JSON file"""
-    with open(json_file_path, 'r') as handle:
-        return json.load(handle)
 
 
 def load_html_data(html_file_path):
@@ -28,7 +22,7 @@ def serialize_animal(animal_obj):
     """Serializes an animal html object"""
     output = ''
     output += '<li class="cards__item">'
-    output += f'<div class="card__title">{animal_obj["name"]}</div>\n'
+    output += f'<div class="card__title">{animal_obj.get("name")}</div>\n'
     output += '<div class="card__text">'
     output += '<ul>'
     output += f'<li><strong>Diet:</strong> {animal_obj["characteristics"]["diet"]}</li>\n'
@@ -41,38 +35,20 @@ def serialize_animal(animal_obj):
     return output
 
 
-def skin_type(animal_obj):
-    """Prints animal skin types"""
-    skin_types = set()
-    for animal in animal_obj:
-        skin_type = animal["characteristics"].get("skin_type")
-        if skin_type:
-            skin_types.add(skin_type)
-    print("Available animal skin types: ")
-    for ani_skin in skin_types:
-        print('-', ani_skin)
-
-
 def main():
     """Main function"""
-    # animals_data = load_json_data(JSON_FILE)  # Get animal data from given file
-    # print(animals_data)
-
     # Open html template file
     html_data = load_html_data(HTML_FILE)
 
     # Get animal data from API
     animal_name = input('Please enter an animal: ')
-    animals_data = fetch_data(animal_name)
+    try:
+        animals_data = fetch_data(animal_name)
+    except Exception as e:
+        print('Error fetching animals data from API.', e)
+        return
+
     if animals_data:
-
-        """# Display animal skin types
-        skin_type(animals_data)
-        # User choose a animal skin type
-        user_selected = input(f"Enter an animal's skin type from the above list: ").strip()
-        filtered_animals = [animal for animal in animals_data
-                            if animal["characteristics"].get("skin_type") == user_selected]"""
-
         output = ''     # define an empty string
         for animal in animals_data:
             output += serialize_animal(animal)

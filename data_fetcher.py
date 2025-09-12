@@ -31,5 +31,5 @@ def fetch_data(animal_name):
     params = {'name': animal_name}
     res = requests.get(REQUEST_URL, headers=HEADERS, params=params)
     if res.status_code != 200:
-        raise Exception(f'Error fetching animals data, {res.status_code}, {res.text}')
+        raise Exception(f'{res.status_code}: {res.text}')
     return res.json()
